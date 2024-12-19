@@ -12,7 +12,7 @@ var collider
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	screen_size = get_viewport_rect().size
+	screen_size = $"../ColorRect".size
 	new_ball()
 	
 func new_ball():

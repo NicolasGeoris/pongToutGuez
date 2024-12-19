@@ -7,7 +7,7 @@ var player_height
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	screen_size = get_viewport_rect().size
+	screen_size = $"../ColorRect".size
 	player_height = $ColorRect.get_size().y
 
 
