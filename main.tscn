@@ -1,0 +1,92 @@
+[gd_scene load_steps=9 format=3 uid="uid://c1uw2o4lsmpco"]
+
+[ext_resource type="PackedScene" uid="uid://c0s11dcjgyp02" path="res://player.tscn" id="1_meo0b"]
+[ext_resource type="Script" path="res://main.gd" id="1_of0yk"]
+[ext_resource type="PackedScene" uid="uid://bp06y54bxbcjt" path="res://ball.tscn" id="2_4jb2n"]
+[ext_resource type="Script" path="res://pong_tout_guez.gd" id="4_214oj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_brwyc"]
+size = Vector2(1152, 29.3125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d8456"]
+size = Vector2(20, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_banix"]
+size = Vector2(20, 648)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vcow4"]
+
+[node name="Background" type="Sprite2D"]
+script = ExtResource("1_of0yk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Ball" parent="." instance=ExtResource("2_4jb2n")]
+position = Vector2(576, 324)
+collision_mask = 3
+
+[node name="Player1" parent="." instance=ExtResource("1_meo0b")]
+position = Vector2(50, 324)
+
+[node name="Player2" parent="." instance=ExtResource("1_meo0b")]
+position = Vector2(1102, 324)
+player_number = 2
+
+[node name="Borders" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Top" type="CollisionShape2D" parent="Borders"]
+position = Vector2(576, -14.6875)
+shape = SubResource("RectangleShape2D_brwyc")
+
+[node name="Bottom" type="CollisionShape2D" parent="Borders"]
+position = Vector2(576, 662.656)
+shape = SubResource("RectangleShape2D_brwyc")
+
+[node name="ScoreLeft" type="Area2D" parent="."]
+
+[node name="Area" type="CollisionShape2D" parent="ScoreLeft"]
+position = Vector2(-10, 324)
+shape = SubResource("RectangleShape2D_d8456")
+
+[node name="ScoreRight" type="Area2D" parent="."]
+
+[node name="Area" type="CollisionShape2D" parent="ScoreRight"]
+position = Vector2(1162, 324)
+shape = SubResource("RectangleShape2D_banix")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ScoreLeft" type="Label" parent="HUD"]
+offset_left = 484.0
+offset_top = 23.0
+offset_right = 524.0
+offset_bottom = 46.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreRight" type="Label" parent="HUD"]
+offset_left = 667.0
+offset_top = 23.0
+offset_right = 707.0
+offset_bottom = 46.0
+text = "0
+"
+horizontal_alignment = 1
+
+[node name="PongToutGuez" type="RichTextLabel" parent="HUD"]
+material = SubResource("ShaderMaterial_vcow4")
+offset_left = 484.0
+offset_top = 84.0
+offset_right = 707.0
+offset_bottom = 200.0
+bbcode_enabled = true
+text = "Pong tout guez"
+script = ExtResource("4_214oj")
+
+[connection signal="body_entered" from="ScoreLeft" to="." method="_on_score_left_body_entered"]
+[connection signal="body_entered" from="ScoreRight" to="." method="_on_score_right_body_entered"]
